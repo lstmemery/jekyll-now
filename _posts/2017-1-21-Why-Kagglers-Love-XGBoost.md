@@ -1,19 +1,19 @@
+
 One of the more delightfully named theorems in data science is called "The No Free Lunch Theorem." It states "any two algorithms are equivalent when their performance is averaged across all possible problems."(4) If that's true, why did over half of the winning solutions for the data science competition website [Kaggle](https://www.kaggle.com) in 2015 contain XGBoost?(1) How does XGBoost even work? What does it look like in action?
 
-I intend to answer these questions and intend to do it without asking you to do (too much) math. One thing you will have to know about is decision trees. A beautiful and intuitive introduction to decision trees can be found [here](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/).
+I intend to answer these questions without asking you to do (too much) math. You will have to know about decision trees. A beautiful and intuitive introduction to decision trees can be found [here](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/).
 
-## Gradient Boosting
+## Gradient Boosted Trees Explained
 
-Overfitting is the machine learning equivalent of cramming. If you only memorized the material without drawing out generalizations, you'll flub the final exam. Decision trees are excellent crammers so data scientists have developed special techniques to make sure that they don't overfit.
+Overfitting is the machine learning equivalent of cramming. If you only memorized the material without drawing out generalizations, you'll flub the final exam. Decision trees are great crammers, so data scientists have developed several techniques to make sure that they don't overfit.
 
-One method is called boosting. Instead of training one strong learner (the overfitting decision tree) we instead train many weak (underfitting) learners in sequence. The trick is that the current tree is informed about which examples the previous tree got wrong. In order for boosting to work, the learners need to be wrong in different ways. This way, the weaknesses found in some learners can compensated by others. 
+One method is called boosting. Instead of training one strong learner (the overfitting decision tree) we instead train several weak (underfitting) learners in sequence. The trick is that the current tree is informed about which examples the previous tree got wrong. For boosting to work, the learners need to be incorrect in different ways. At the end of training, each tree votes on how each example should be classified. This way, the weaknesses found in some learners can be compensated by others. 
 
-A classic implementation is adaptive boosting (AdaBoost), where the misclassified examples of the previous tree are given additional weight. Thus, the current tree has extra incentive to get to previously misclassified examples right.
+Adaptive boosting (AdaBoost) is a classic implementation of boosting. The first tree is punished equally for each misclassification. The next tree will be punished more harshly for getting the same examples wrong as the previous tree. This tactic will cause the new tree to prioritize making decisions that will correctly classify the previous hardest cases.
 
-Gradient boosting is another flavor of boosting. The first tree fits normally, but the second tree tries to find the decisions that would minimize the errors of the of the previous tree. This is difficult because we don't know the mathematical function that describes our data. If we did, we would just use the function! 
+Gradient boosting is another flavor of boosting. The first tree fits the data in the typical fashion. The next tree tries to find the decisions that would minimize the error of the of the previous tree. It would be simple to minimize the error if we knew the mathematical function that described the data. If we knew the function, we wouldn't be trying to approximate it with decisions tree in the first place! We'll need a new tactic to minimize error without knowing the function.
 
-Imagine you on top of a hill enveloped in fog. You can't see more than a step in front of you. What be reasonable a reasonable way of finding the fastest way down? One way would be to put your foot out in each direction and feel the steepest way down. After you've done that in every direction, step down the steepest slope. Repeat until you are at the bottom. This is called gradient descent. When this is used to find a tree that minimize the errors of the previous tree it is called a gradient boosted tree algorithm.
-
+Imagine you on top of a hill enveloped in fog. You can't see more than a step in front of you. What would be a reasonable way of finding the fastest way down? One way would be to put your foot out in each direction and feel the steepest way down. Now, step down the steepest slope you found. Repeat this process until you are at the bottom. Data scientists call this algorithm gradient descent. In this context, we call it the Gradient Boosted Trees algorithm.
 
 <figure>
     <img src='{{ site.baseurl }}/assets/gradient_descent.gif' alt='Gradient Descent' />
@@ -24,13 +24,13 @@ Imagine you on top of a hill enveloped in fog. You can't see more than a step in
 
 The first proposal for gradient boosted trees was published in 2001.(3) What has XGBoost boost done to improve the algorithm?
 
-One common misconception I've seen is that XGBoost is somehow more accurate than other implementations of the gradient boosted tree algorithm. It's not true! In the original XGBoost paper, the authors compare their implementation to the Sci-Kit Learn implementation and find that it performs about as well.
+One common misconception I've seen is that XGBoost is somehow more accurate than other implementations of the gradient boosted tree algorithm. It's not true! The authors of the algorithm found that XGBoost had roughly the same error rate as the Sci-Kit Learn implementation.
 
 ### XGBoost is not extremely accurate; XGBoost is extremely fast
 
 1. **XGBoost has sparsity-awareness:** Boosted trees work especially well on categorical feature (e.g. Was this person born England?). In many real-world data sets, a categorical feature column will be mostly zeros. When deciding where to split, XGBoost has indices of the non-zero data are and only needs to look at those entries.
-2. **XGBoost is parallelizable:** The most time-consuming step for boosted tree algorithms is sorting continuous features (e.g. How far do you drive to work each day?). XGBoost takes advantage of the fact it's sparse data structure allows columns to be sorted independently. This way, the sorting work can be divided up between parallel threads of the CPU. 
-3. **XGBoost can make approximate cuts:** In order to find the most effective cut on a continuous feature, gradient boosted trees need to keep all of the data in memory at the same time to sort it. This is not a problem for small datasets but it becomes impossible when you have more data than RAM. XGBoost has to bin these numbers in approximate order instead of sorting them entirely. The authors of the XGBoost paper show that, with enough bins, the you get approximately the same performance as with the exact cut.
+2. **XGBoost is parallelizable:** The most time-consuming step for boosted tree algorithms is sorting continuous features (e.g. How far do you drive to work each day?). The sparse data structure and clever implementation allow XGBoost sort columns independently. This way, the sorting work can be divided up between parallel threads of the CPU. 
+3. **XGBoost can split approximately:** To find the most efficient cut on a continuous feature, gradient boosted trees need to keep all of the data in memory at the same time to sort it. This is not a problem for small datasets, but it becomes impossible when you have more data than RAM. XGBoost has the ability to bin these numbers in rough order instead of sorting them entirely. The authors of the XGBoost paper show that, with enough bins, you get approximately the same performance as with the exact split in a fraction of the time.
 
 ## An illustration
 
@@ -38,7 +38,7 @@ Let's take a look at what XGBoost can do. I'll be working with the training data
 
 To prepare this data, I used Human Analog's code graciously provided via a [Kaggle kernel](https://www.kaggle.com/humananalog/house-prices-advanced-regression-techniques/xgboost-lasso/code).  
 
-This script cleans up the dataset, get's it into a format that xgboost can read and synthesizes new features from the the existing data. For example, he adds a feature that describes whether the house was last renovated the year it was sold.
+This script cleans up the dataset, get's it into an XGBoost-readable format and engineers new features from existing data. For example, he adds a feature that describes whether the house was last renovated the year it was sold.
 
 
 ```python
@@ -53,74 +53,84 @@ from sklearn.ensemble import GradientBoostingRegressor, \
 X = pd.read_csv('../../results/munged_training.csv')
 y = pd.read_csv('../../results/munged_labels.csv')
 
+# Make a validation set
 X_train, X_validation, y_train, y_validation = train_test_split(X, 
                                                                 y, 
                                                                 random_state=1848)
 ```
 
-
-
-
 ```python
+# Sci-Kit Learn's Out of the Box Gradient Tree Implementation
 sklearn_boost = GradientBoostingRegressor(random_state=1849)
 sklearn_boost.fit(X_train, y_train.values.ravel())
-print(1 - sklearn_boost.score(X_train, y_train))
-print(1 - sklearn_boost.score(X_validation, y_validation))
+print('Training Error: {:.3f}'.format(1 - sklearn_boost.score(X_train, 
+                                                              y_train)))
+print('Validation Error: {:.3f}'.format(1 - sklearn_boost.score(X_validation, 
+                                                                y_validation)))
 %timeit sklearn_boost.fit(X_train, y_train.values.ravel())
 ```
 
-    0.0314922846261
-    0.109576545998
+    Training Error: 0.031
+    Validation Error: 0.110
     1 loop, best of 3: 1.23 s per loop
 
 
 
 ```python
+# XGBoost
 xgb_boost = xgb.XGBRegressor(seed=1850)
 xgb_boost.fit(X_train, y_train.values.ravel())
-print(1 - xgb_boost.score(X_train, y_train))
-print(1 - xgb_boost.score(X_validation, y_validation))
+print('Training Error: {:.3f}'.format(1 - xgb_boost.score(X_train, 
+                                                          y_train)))
+print('Validation Error: {:.3f}'.format(1 - xgb_boost.score(X_validation, 
+                                                            y_validation)))
 %timeit xgb_boost.fit(X_train, y_train.values.ravel())
 ```
 
-    0.0380900690956
-    0.11111261209
-    1 loop, best of 3: 463 ms per loop
+    Training Error: 0.038
+    Validation Error: 0.111
+    1 loop, best of 3: 443 ms per loop
 
 
 
 ```python
+# Sci-Kit Learn's Adaptive Boosting
 ada_boost = AdaBoostRegressor(random_state=1851)
 ada_boost.fit(X_train, y_train.values.ravel())
-print(1 - ada_boost.score(X_train, y_train))
-print(1 - ada_boost.score(X_validation, y_validation))
+print('Training Error: {:.3f}'.format(1 - ada_boost.score(X_train, 
+                                                          y_train)))
+print('Validation Error: {:.3f}'.format(1 - ada_boost.score(X_validation, 
+                                                            y_validation)))
 %timeit ada_boost.fit(X_train, y_train.values.ravel())
 ```
 
-    0.126232603941
-    0.196231101656
-    1 loop, best of 3: 756 ms per loop
+    Training Error: 0.126
+    Validation Error: 0.196
+    1 loop, best of 3: 729 ms per loop
 
 
 
 ```python
+# Random Forest: A fast, non-boosting algorithm
 random_forest = RandomForestRegressor(random_state=1852)
 random_forest.fit(X_train, y_train.values.ravel())
-print(1 - random_forest.score(X_train, y_train))
-print(1 - random_forest.score(X_validation, y_validation))
+print('Training Error: {:.3f}'.format(1 - random_forest.score(X_train, 
+                                                              y_train)))
+print('Validation Error: {:.3f}'.format(1 - random_forest.score(X_validation, 
+                                                                y_validation)))
 %timeit random_forest.fit(X_train, y_train.values.ravel())
 ```
 
-    0.0239502194301
-    0.12823390801
-    1 loop, best of 3: 391 ms per loop
+    Training Error: 0.024
+    Validation Error: 0.128
+    1 loop, best of 3: 398 ms per loop
 
 
-This is a head-to-head comparison between XGBoost, Gradient Boosted Trees, AdaBoost and Random Forests. XGBoost has a roughly equivalent accuracy score
+First, let's take a look at look at the validation error. The Sci-Kit Learn implementation and XGBoost are nearly identical and both beat AdaBoost and RandomForest with their default hyperparameters. However, XGBoost really shines in the speed of execution. XGBoost is three times as fast as the Sci-Kit Learn implementation and nearly as quick as RandomForest.
 
-In this trial XGBoost is about as accurate as the sci-kit learn implementation
+The fact that XGBoost is generally accurate and fast makes it an excellent tool for evaluating feature engineering. If you think of a new feature, add it in, spin up XGBoost, cross-validate and see if the new feature improved the accuracy of the model. Because boosted trees are robust to overfitting, you can continue to add features until you run out of ideas. 
 
-#TODO: Write conclusions
+XGBoost isn't used everywhere because it's the best at everything (although it performs very well in many cases). It's used everywhere because it's a sane default for when you are poking around the data.
 
 ## Bibliography
 
@@ -135,7 +145,4 @@ In this trial XGBoost is about as accurate as the sci-kit learn implementation
 
 
 
-
-```python
-
-```
+Do you have a data science topic you'd like me to cover? Shoot me an email at m{dot}emery{at}alumni{dot}ubc{dot}ca.
