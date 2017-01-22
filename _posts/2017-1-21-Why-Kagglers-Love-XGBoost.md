@@ -45,18 +45,19 @@ This script cleans up the dataset, get's it into a format that xgboost can read 
 from sklearn.model_selection import train_test_split
 import xgboost as xgb
 import pandas as pd
-from sklearn.ensemble import GradientBoostingRegressor, AdaBoostRegressor, RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor, \
+    AdaBoostRegressor, RandomForestRegressor
 
 
 
 X = pd.read_csv('../../results/munged_training.csv')
 y = pd.read_csv('../../results/munged_labels.csv')
 
-X_train, X_validation, y_train, y_validation = train_test_split(X, y, random_state=1848)
+X_train, X_validation, y_train, y_validation = train_test_split(X, 
+                                                                y, 
+                                                                random_state=1848)
 ```
 
-    /home/memery/anaconda3/envs/xgboost/lib/python3.5/site-packages/sklearn/cross_validation.py:44: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
-      "This module will be removed in 0.20.", DeprecationWarning)
 
 
 
