@@ -79,9 +79,9 @@ analytics:
 author:
   name             : "Matthew Emery"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I like numbers."
-  location         : "Vancouver"
-  email            : "matthew.emery44@gmail.com"
+  bio              : "Canadian Data Scientist. Rap Enthusiast."
+  location         : "Vancouver, BC"
+  email            : "m.emery@alumni.ubc.ca"
   uri              :
   bitbucket        :
   codepen          :
