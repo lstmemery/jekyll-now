@@ -15,11 +15,12 @@ Gradient boosting is another flavor of boosting. The first tree fits the data in
 
 Imagine you on top of a hill enveloped in fog. You can't see more than a step in front of you. What would be a reasonable way of finding the fastest way down? One way would be to put your foot out in each direction and feel the steepest way down. Now, step down the steepest slope you found. Repeat this process until you are at the bottom. Data scientists call this algorithm gradient descent. In this context, we call it the Gradient Boosted Trees algorithm.
 
+<a href="http://vis.supstat.com/2013/03/gradient-descent-algorithm-with-r/">
 <figure>
     <img src='{{ site.baseurl }}/assets/gradient_descent.gif' alt='Gradient Descent' />
     <figcaption>Yu L. Demonstration of the Gradient Descent Algorithm. Vistat [Internet]. 2013 Mar 24 [cited 2017 Jan 21]; Available from: http://vis.supstat.com/2013/03/gradient-descent-algorithm-with-r/</figcaption>
 </figure>
-
+</a>
 ## What makes XGBoost EXTREME?
 
 The first proposal for gradient boosted trees was published in 2001.(3) What has XGBoost boost done to improve the algorithm?
