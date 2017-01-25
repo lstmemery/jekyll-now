@@ -29,6 +29,7 @@ Imagine you on top of a hill enveloped in fog. You can't see more than a step in
     <figcaption>Yu L. Demonstration of the Gradient Descent Algorithm. Vistat [Internet]. 2013 Mar 24 [cited 2017 Jan 21]; Available from: http://vis.supstat.com/2013/03/gradient-descent-algorithm-with-r/</figcaption>
 </figure>
 </a>
+
 ## What makes XGBoost EXTREME?
 
 The first proposal for gradient boosted trees was published in 2001.(3) What has XGBoost boost done to improve the algorithm?
