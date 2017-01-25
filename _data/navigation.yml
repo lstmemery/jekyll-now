@@ -2,6 +2,8 @@
 main:
   - title: "Recent Posts"
     url: /
+  - title: "Kaggle Galaxy Presentation"
+    url: /kaggle-galaxy-presentation/#/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"

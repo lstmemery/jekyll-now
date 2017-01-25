@@ -1,3 +1,11 @@
+---
+title: Why Kagglers Love XGBoost
+image:
+    feature: gradient_descent.gif
+    credit: Lijia Yu
+    creditlink: http://vis.supstat.com/2013/03/gradient-descent-algorithm-with-r/
+---
+
 
 One of the more delightfully named theorems in data science is called "The No Free Lunch Theorem." It states "any two algorithms are equivalent when their performance is averaged across all possible problems."(4) If that's true, why did over half of the winning solutions for the data science competition website [Kaggle](https://www.kaggle.com) in 2015 contain XGBoost?(1) How does XGBoost even work? What does it look like in action?
 
@@ -17,7 +25,7 @@ Imagine you on top of a hill enveloped in fog. You can't see more than a step in
 
 <a href="http://vis.supstat.com/2013/03/gradient-descent-algorithm-with-r/">
 <figure>
-    <img src='{{ site.baseurl }}/assets/gradient_descent.gif' alt='Gradient Descent' />
+    <img src='{{ site.baseurl }}/images/gradient_descent.gif' alt='Gradient Descent' />
     <figcaption>Yu L. Demonstration of the Gradient Descent Algorithm. Vistat [Internet]. 2013 Mar 24 [cited 2017 Jan 21]; Available from: http://vis.supstat.com/2013/03/gradient-descent-algorithm-with-r/</figcaption>
 </figure>
 </a>
