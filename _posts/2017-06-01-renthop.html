@@ -26,7 +26,7 @@ June 1st, 2017
  - RentHop: Smart Apartment Search (New York Only)
  - Reward: Recruitment to Two Sigma
 
-![Two Sigma Salary](twosigma_salary.png)
+![Two Sigma Salary](../images/twosigma_salary.png)
 
 .footnote[[Source](https://www.glassdoor.com/Salary/Two-Sigma-Salaries-E241045.htm)]
 
@@ -35,7 +35,7 @@ June 1st, 2017
 
  - Predict how interested people will be in this:
 
-![Example RentHop Listing](renthop_listing.png)
+![Example RentHop Listing](../images/renthop_listing.png)
 
 ---
 
@@ -50,21 +50,21 @@ Test: 74659 Rows
  - Image Data (78.5 Gb compressed)
  - ...and everything you would else you would expect (price, bedrooms etc.)
 
-![RentHop](twosigma-renthop.png)
+![RentHop](../images/twosigma-renthop.png)
 
 ---
 # Understand the Metric
 
 Multiclass Log Loss (Low, Medium, High Interest)
 
-<img src ="logloss.png" height="80%" width="80%" alt = "Log Loss">
+<img src ="../images/logloss.png" height="80%" width="80%" alt = "Log Loss">
 
 - Note: This isn't ordinal
 
 ---
 ## Manager ID Count
 
-<img src ="manager-sales-count-plot.jpeg" height="419" width="596" alt = "Manager Count Plot">
+<img src ="../images/manager-sales-count-plot.jpeg" height="419" width="596" alt = "Manager Count Plot">
 
 Someone just used different transformations of Manager ID Count and scored in the top 15%
 
@@ -73,7 +73,7 @@ Someone just used different transformations of Manager ID Count and scored in th
 ---
 ## Listing ID
 
-<img style="float: left; margin-right: 5%;" src ="listing_id.png" height="70%" width="50%" alt = "Listing ID">
+<img style="float: left; margin-right: 5%;" src ="../images/listing_id.png" height="70%" width="50%" alt = "Listing ID">
 
  - This pattern hinted at a possible data leak...
 
@@ -85,7 +85,7 @@ Someone just used different transformations of Manager ID Count and scored in th
 The creation time of the image folders were correlated with interest.
 
 <img style="float: left; margin-right: 5%;"
-src ="leak.png"
+src ="../images/leak.png"
 height="50%" width="50%"
 alt = "Leak Plot">
 
@@ -137,7 +137,7 @@ Meta-modeled with a 2-layer neural network.
 ---
 ## An Aside on LightGBM
 
-![LightGBM](lightgbm.png)
+![LightGBM](../images/lightgbm.png)
 
  - Faster than XGBoost
  - Requires more hyperparameter optimization
@@ -162,7 +162,7 @@ For each of 12 bags:
 Written by Marios Michailidis (kazAnova) for his PhD
 A Java-based, flexible meta-modelling network
 
-![StackNet](stacknet_modes.png)
+![StackNet](../images/stacknet_modes.png)
 
 [Source](https://github.com/kaz-Anova/StackNet)
 
